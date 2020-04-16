@@ -21,11 +21,11 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, outputCont) //这个写入到w的是输出到客户端的
 }
 
-func Start(cont string) {
+func Start(cont string, port string) {
 	outputCont = cont
-	http.HandleFunc("/getbingimg", sayhelloName)       //设置访问的路由
-	fmt.Println("http://localhost:9090/getbingimg")
-	err := http.ListenAndServe(":9090", nil) //设置监听的端口
+	http.HandleFunc("/getbingimg", sayhelloName) //设置访问的路由
+	fmt.Println("http://localhost:" + port + "/getbingimg")
+	err := http.ListenAndServe(":"+port, nil) //设置监听的端口
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
