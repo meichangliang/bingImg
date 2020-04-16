@@ -2,7 +2,6 @@ package GetBingImgData
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -20,9 +19,9 @@ const src = baseUrl + "/HPImageArchive.aspx?format=js&n=10"
 
 var JsonArr []string
 
+//获取 bingImg
 func GetData() {
 	start()
-	fmt.Println(JsonArr)
 }
 
 func start() {
