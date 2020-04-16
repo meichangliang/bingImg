@@ -7,7 +7,6 @@ import (
 
 func main() {
 	bingApi.GetData()
-	// var data = bingApi.JsonArr
 
-	service.Start()
+	service.Start(bingApi.JsonStr)
 }
