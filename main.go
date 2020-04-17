@@ -11,6 +11,5 @@ func main() {
 
 func startService() {
 	bingApi.GetData()
-
 	service.Start(bingApi.JsonStr, "5000")
 }
