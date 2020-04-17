@@ -12,19 +12,26 @@ import (
 
 var num int
 
+var i = 0
+
 func main() {
-	i := 0
+	start()
+
 	c := cron.New()
 	spec := "0 0 1 * * ?" // 每天凌晨1点执行一次
 	c.AddFunc(spec, func() {
-		i++
-		log.Println("cron running:", i)
-		startService()
+		start()
 	})
 	c.Start()
 
 	select {}
 
+}
+
+func start() {
+	i++
+	log.Println("cron running:", i)
+	startService()
 }
 
 func startService() {
