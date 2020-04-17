@@ -10,7 +10,12 @@ import (
 func Start(cont string, port string) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/getbingimg", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, cont) //这个写入到w的是输出到客户端的
+
+		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+		w.Header().Set("content-type", "application/json")
+
+		fmt.Fprintf(w, cont)
 	})
 	server := &http.Server{
 		Addr:    ":" + port,
