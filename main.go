@@ -6,6 +6,10 @@ import (
 )
 
 func main() {
+	startService()
+}
+
+func startService() {
 	bingApi.GetData()
 
 	service.Start(bingApi.JsonStr, "5000")
