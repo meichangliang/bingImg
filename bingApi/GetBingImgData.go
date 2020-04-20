@@ -15,7 +15,7 @@ type BingData struct {
 
 const baseUrl = "https://cn.bing.com"
 
-const src = baseUrl + "/HPImageArchive.aspx?format=js&n=10"
+const src = baseUrl + "/HPImageArchive.aspx?format=js&n=1&idx=0"
 
 var JsonArr []string
 
