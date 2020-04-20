@@ -2,6 +2,7 @@ package GetBingImgData
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -29,10 +30,11 @@ func start() {
 
 	var ImgUrlArr []string
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 8; i++ {
 		var src = baseUrl + "/HPImageArchive.aspx?format=js&n=1&idx=" + strconv.Itoa(i)
 		data := httpGet(src)
 		JsonArr = toJson(data)
+		fmt.Println(i, JsonArr)
 		ImgUrlArr = append(ImgUrlArr, JsonArr[0])
 	}
 

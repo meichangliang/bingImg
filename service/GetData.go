@@ -25,7 +25,7 @@ func Start(cont string, port string) {
 	mux.HandleFunc("/close", func(w http.ResponseWriter, r *http.Request) {
 		server.Shutdown(context.Background())
 	})
-	log.Println("启动服务" + port)
+	log.Println("启动服务 http://localhost:5000/getbingimg" + port)
 
 	server.ListenAndServe() //设置监听的端口
 
