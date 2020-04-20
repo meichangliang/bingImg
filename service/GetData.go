@@ -3,10 +3,13 @@ package GetData
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"path"
 	"strconv"
+	"time"
 )
 
 func Start(cont string, port string) {
@@ -23,20 +26,27 @@ func Start(cont string, port string) {
 		query := r.URL.Query()
 		idx := query["idx"]
 		index := -1
+
+		fileArr := getFileNum()
+
 		if len(idx) > 0 {
 			index, _ = strconv.Atoi(idx[0])
 		}
 
 		if index < 0 {
-			fmt.Println("随机")
+			rand.Seed(time.Now().Unix())
+			index = rand.Intn(len(fileArr))
 		} else {
+			if index > len(fileArr) {
+				index = len(fileArr) - 1
+			}
 			fmt.Println("第" + strconv.Itoa(index) + "张输出")
 		}
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
 		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
 		w.Header().Set("content-type", "image/JPEG")
-		fp := path.Join("images", "0.jpg")
+		fp := path.Join("./images", fileArr[index])
 		http.ServeFile(w, r, fp)
 
 	})
@@ -52,4 +62,12 @@ func Start(cont string, port string) {
 
 	server.ListenAndServe() //设置监听的端口
 
+}
+func getFileNum() []string {
+	files, _ := ioutil.ReadDir("./images")
+	var nameArr []string
+	for _, f := range files {
+		nameArr = append(nameArr, f.Name())
+	}
+	return nameArr
 }
