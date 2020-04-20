@@ -6,10 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path"
 )
-
-var imgPath = "/"
 
 //获取 bingImg
 func GetImg(url, filePath string) {
@@ -17,7 +14,6 @@ func GetImg(url, filePath string) {
 
 	res, err := http.Get(imgUrl)
 	if err != nil {
-		fmt.Println("A error occurred!")
 		return
 	}
 	// defer后的为延时操作，通常用来释放相关变量
@@ -25,10 +21,6 @@ func GetImg(url, filePath string) {
 
 	// 获得get请求响应的reader对象
 	reader := bufio.NewReaderSize(res.Body, 32*1024)
-
-	imgPath := "./"
-	// 根据图片url获取其文件名
-	fileName := path.Base(imgUrl)
 
 	file, err := os.Create(filePath)
 
@@ -38,5 +30,8 @@ func GetImg(url, filePath string) {
 	// 获得文件的writer对象
 	writer := bufio.NewWriter(file)
 
+	//
 	written, _ := io.Copy(writer, reader)
+	// 输出文件字节大小
+	fmt.Printf("Total length: %d", written)
 }
