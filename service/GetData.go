@@ -27,7 +27,11 @@ func Start(cont string, port string) {
 			index, _ = strconv.Atoi(idx[0])
 		}
 
-		fmt.Println(index)
+		if index < 0 {
+			fmt.Println("随机")
+		} else {
+			fmt.Println("第" + strconv.Itoa(index) + "张输出")
+		}
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
 		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
