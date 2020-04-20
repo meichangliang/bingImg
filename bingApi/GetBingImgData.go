@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -15,8 +16,6 @@ type BingData struct {
 
 const baseUrl = "https://cn.bing.com"
 
-const src = baseUrl + "/HPImageArchive.aspx?format=js&n=1&idx=0"
-
 var JsonArr []string
 
 var JsonStr string
@@ -27,12 +26,21 @@ func GetData() {
 }
 
 func start() {
-	data := httpGet(src)
-	JsonArr = toJson(data)
-	// JsonStr = json.Marshal(user)
 
-	b, _ := json.Marshal(JsonArr)
+	var ImgUrlArr []string
+
+	for i := 0; i < 10; i++ {
+		var src = baseUrl + "/HPImageArchive.aspx?format=js&n=1&idx=" + strconv.Itoa(i)
+		data := httpGet(src)
+		JsonArr = toJson(data)
+		ImgUrlArr = append(ImgUrlArr, JsonArr[0])
+	}
+
+	JsonArr = ImgUrlArr
+
+	b, _ := json.Marshal(ImgUrlArr)
 	JsonStr = string(b)
+
 }
 
 func httpGet(url string) string {
