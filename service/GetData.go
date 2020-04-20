@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path"
+	"strconv"
 )
 
 func Start(cont string, port string) {
@@ -18,12 +20,21 @@ func Start(cont string, port string) {
 		fmt.Fprintf(w, cont)
 	})
 	mux.HandleFunc("/bz", func(w http.ResponseWriter, r *http.Request) {
+		query := r.URL.Query()
+		idx := query["idx"]
+		index := -1
+		if len(idx) > 0 {
+			index, _ = strconv.Atoi(idx[0])
+		}
+
+		fmt.Println(index)
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
 		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
-		w.Header().Set("content-type", "application/json")
+		w.Header().Set("content-type", "image/JPEG")
+		fp := path.Join("images", "0.jpg")
+		http.ServeFile(w, r, fp)
 
-		fmt.Fprintf(w, cont)
 	})
 	server := &http.Server{
 		Addr:    ":" + port,
