@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func Start(cont string, port string) {
+func Start(cont string, port string, pathUrl string) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/getbingimg", func(w http.ResponseWriter, r *http.Request) {
 
@@ -46,7 +46,7 @@ func Start(cont string, port string) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
 		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
 		w.Header().Set("content-type", "image/JPEG")
-		fp := path.Join("./images", fileArr[index])
+		fp := path.Join(pathUrl, fileArr[index])
 		http.ServeFile(w, r, fp)
 
 	})

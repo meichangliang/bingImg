@@ -37,6 +37,8 @@ func start() {
 	startService()
 }
 
+const PATH = "./images"
+
 func startService() {
 	bingApi.GetData()
 
@@ -44,7 +46,7 @@ func startService() {
 		var strArr = strings.Split(val, ".")
 		var lastName = strArr[len(strArr)-1]
 
-		var imgPath = "./images/" + strconv.Itoa(index) + "." + lastName
+		var imgPath = PATH + "/" + strconv.Itoa(index) + "." + lastName
 
 		fmt.Println(val, imgPath)
 
@@ -55,5 +57,5 @@ func startService() {
 	num++
 	fmt.Println("启动次数", num)
 	http.Get("http://localhost:" + port + "/getbingimg")
-	service.Start(bingApi.JsonStr, "5000")
+	service.Start(bingApi.JsonStr, "5000", PATH)
 }
