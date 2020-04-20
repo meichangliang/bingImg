@@ -1,4 +1,4 @@
-package getImgData
+package downLoad
 
 import (
 	"testing"
