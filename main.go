@@ -44,7 +44,7 @@ func startService() {
 		var strArr = strings.Split(val, ".")
 		var lastName = strArr[len(strArr)-1]
 
-		var imgPath = "./images/img_" + strconv.Itoa(index) + "." + lastName
+		var imgPath = "./images/" + strconv.Itoa(index) + "." + lastName
 
 		fmt.Println(val, imgPath)
 
