@@ -10,6 +10,7 @@ import (
 	bingApi "bingImg.com/bingApi"
 	"bingImg.com/downLoad"
 	service "bingImg.com/service"
+	"github.com/robfig/cron"
 )
 
 var num int
@@ -19,15 +20,15 @@ var i = 0
 func main() {
 	start()
 
-	// c := cron.New()
-	// // spec := "0 0 1 * * ?" // 每天凌晨1点执行一次
-	// spec := "*/1 * * * * ?" // 1秒钟来一次
-	// c.AddFunc(spec, func() {
-	// 	start()
-	// })
-	// c.Start()
+	c := cron.New()
+	// spec := "0 0 1 * * ?" // 每天凌晨1点执行一次
+	spec := "*/1 * * * * ?" // 1秒钟来一次
+	c.AddFunc(spec, func() {
+		start()
+	})
+	c.Start()
 
-	// select {}
+	select {}
 
 }
 
