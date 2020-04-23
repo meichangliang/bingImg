@@ -1,6 +1,6 @@
 # bingImg
 
-golang 实现获取 bing 每日美图每日凌晨自动更新爬取
+golang 实现获取 bing 每日美图,每日凌晨自动更新爬取
 
 ## 获取 cn.bing.com 官网当天的图片地址
 
