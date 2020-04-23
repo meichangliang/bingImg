@@ -12,15 +12,22 @@ import (
 	"time"
 )
 
-func Start(cont string, port string, pathUrl string) {
+func Start(port string, pathUrl string) {
 	mux := http.NewServeMux()
+
 	mux.HandleFunc("/getbingimg", func(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
 		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
 		w.Header().Set("content-type", "application/json")
 
-		fmt.Fprintf(w, cont)
+		data, err := ioutil.ReadFile(pathUrl + "/data.json")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		fmt.Fprintf(w, string(data))
 	})
 	mux.HandleFunc("/bz", func(w http.ResponseWriter, r *http.Request) {
 		query := r.URL.Query()

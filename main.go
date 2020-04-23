@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
@@ -13,18 +13,19 @@ import (
 	"github.com/robfig/cron"
 )
 
-var num int
-
 var i = 0
 
+const PATH = "./images"
+
 func main() {
-	start()
+	getImg()
+	startService()
 
 	c := cron.New()
-	// spec := "0 0 1 * * ?" // 每天凌晨1点执行一次
-	spec := "*/1 * * * * ?" // 1秒钟来一次
+	spec := "0 0 1 * * ?" // 每天凌晨1点执行一次
+	// spec := "*/1 * * * * ?" // 1秒钟来一次
 	c.AddFunc(spec, func() {
-		start()
+		getImg()
 	})
 	c.Start()
 
@@ -32,16 +33,11 @@ func main() {
 
 }
 
-func start() {
+func getImg() {
 	i++
 	log.Println("cron running:", i)
-	startService()
-}
-
-const PATH = "./images"
-
-func startService() {
 	bingApi.GetData()
+	fmt.Println("今日的bingImg", bingApi.JsonStr)
 
 	for index, val := range bingApi.JsonArr {
 		var strArr = strings.Split(val, ".")
@@ -54,12 +50,28 @@ func startService() {
 		downLoad.GetImg(val, imgPath)
 	}
 
-	const port = "5000"
-	num++
-	fmt.Println("启动次数", num)
-	http.Get("http://localhost:" + port + "/close")
-	start()
+	WriteToFile(PATH+"/data.json", bingApi.JsonStr)
 
-	service.Start(bingApi.JsonStr, port, PATH)
+}
+
+func WriteToFile(fileName string, content string) error {
+	f, err := os.OpenFile(fileName, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+	if err != nil {
+		fmt.Println("file create failed. err: " + err.Error())
+	} else {
+		// offset
+		//os.Truncate(filename, 0) //clear
+		n, _ := f.Seek(0, os.SEEK_END)
+		_, err = f.WriteAt([]byte(content), n)
+		fmt.Println("write succeed!")
+		defer f.Close()
+	}
+	return err
+}
+
+func startService() {
+
+	const port = "5000"
+	service.Start(port, PATH)
 
 }
