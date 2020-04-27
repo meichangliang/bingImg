@@ -18,7 +18,7 @@ var i = 0
 const PATH = "./images"
 
 func main() {
-	// getImg()
+	getImg()
 	ticker()
 	startService()
 }
@@ -26,7 +26,6 @@ func main() {
 func ticker() {
 	go func() {
 		fmt.Println("启动定时任务")
-
 		c := cron.New()
 		spec := "0 0 1 * * ?" // 每天凌晨1点执行一次
 		// spec := "*/5 * * * * ?" // 1秒钟来一次
