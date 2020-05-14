@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"path"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -34,7 +35,7 @@ func Start(port string, pathUrl string) {
 		idx := query["idx"]
 		index := -1
 
-		fileArr := getFileNum()
+		fileArr := getFileNum(pathUrl)
 
 		if len(idx) > 0 {
 			index, _ = strconv.Atoi(idx[0])
@@ -47,7 +48,10 @@ func Start(port string, pathUrl string) {
 			if index > len(fileArr) {
 				index = len(fileArr) - 1
 			}
-			fmt.Println("第" + strconv.Itoa(index) + "张输出")
+		}
+
+		if index > len(fileArr)-1 {
+			index = len(fileArr) - 1
 		}
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
@@ -71,11 +75,15 @@ func Start(port string, pathUrl string) {
 	server.ListenAndServe() //设置监听的端口
 
 }
-func getFileNum() []string {
-	files, _ := ioutil.ReadDir("./images")
+
+func getFileNum(pathUrl string) []string {
+	files, _ := ioutil.ReadDir(pathUrl)
 	var nameArr []string
 	for _, f := range files {
-		nameArr = append(nameArr, f.Name())
+		countSplit := strings.Split(f.Name(), ".")
+		if countSplit[1] != "json" {
+			nameArr = append(nameArr, f.Name())
+		}
 	}
 	return nameArr
 }
